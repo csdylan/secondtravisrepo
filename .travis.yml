@@ -1,18 +1,12 @@
-{
-2	  "language": "python",
-3	  "os": [
-4	    "linux"
-5	  ],
-6	  "dist": "xenial",
-7	  "install": [
-8	    "pip install awscli",
-9	    "export PATH=$PATH:$HOME/.local/bin"
-10	  ],
-11	  "script": [
-12	    "aws s3 sync . s3://dylancsomra.com --delete",
-13	    "aws configure set preview.cloudfront true",
-14	    "aws cloudfront create-invalidation --distribution-id E3QR0MGHOF53C2 --paths \"/*\""
-15	  ]
-16	}
+language: python
 
+
+install:
+   - pip install awscli
+   - export PATH=$PATH:$HOME/.local/bin
+
+script:
+   - aws s3 sync . s3://dylancsomra.com --delete
+   - aws configure set preview.cloudfront true
+   - aws cloudfront create-invalidation --distribution-id E3QR0MGHOF53C2 --paths "/*"
 
