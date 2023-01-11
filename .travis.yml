@@ -1,24 +1,25 @@
 language: python
 
 install:
-  - pip install awscli
-  - export PATH=$PATH:$HOME/.local/bin
+   - pip install awscli
+   - export PATH=$PATH:$HOME/.local/bin
 
 script:
-  - make build
+   - aws s3 sync . s3://dylancsomra.com --delete
+   - aws configure set preview.cloudfront true
+   - aws cloudfront create-invalidation --distribution-id E3QR0MGHOF53C2 --paths "/*"
   
 deploy:
   provider: s3
   access_key_id: AKIAUJ6F5MSTC25A7R6N
   secret_access_key: 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 
-  on: 
-    branch: master
+  
   
 
-bucket: dsresbuck
+bucket: dylancsomra.com
 skip_cleanup: true
 local_dir: build
 cache_control: "max-age=21600"
 after_deploy: 
   - aws configure set preview.cloudfront true
-  - aws cloudfront create-invalidation --distribution-id E1RGONFN2GS7A2 $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+  - aws cloudfront create-invalidation --distribution-id E3QR0MGHOF53C2 $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
