@@ -5,11 +5,15 @@ install:
   - export PATH=$PATH:$HOME/.local/bin
 
 script:
-  - aws s3 sync . s3://dsresbuck --delete
-  - aws configure set preview.cloudfront true
-  - aws cloudfront create-invalidation --distribution-id E1RGONFN2GS7A2 --paths "/*"
-
-provider: s3
+  - make build
+  
+deploy:
+  provider: s3
+  access_key_id: AKIAUJ6F5MSTC25A7R6N
+  secret_access_key: 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 
+  on: 
+    branch: master
+  
 
 bucket: dsresbuck
 skip_cleanup: true
@@ -17,3 +21,4 @@ local_dir: build
 cache_control: "max-age=21600"
 after_deploy: 
   - aws configure set preview.cloudfront true
+  - aws cloudfront create-invalidation --distribution-id E1RGONFN2GS7A2 $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
