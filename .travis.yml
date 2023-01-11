@@ -9,17 +9,4 @@ script:
    - aws configure set preview.cloudfront true
    - aws cloudfront create-invalidation --distribution-id E3QR0MGHOF53C2 --paths "/*"
   
-deploy:
-  provider: s3
-  access_key_id: AKIAUJ6F5MSTC25A7R6N
-  secret_access_key: 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 
-  
-  
 
-bucket: dylancsomra.com
-skip_cleanup: true
-local_dir: build
-cache_control: "max-age=21600"
-after_deploy: 
-  - aws configure set preview.cloudfront true
-  - aws cloudfront create-invalidation --distribution-id E3QR0MGHOF53C2 $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
